@@ -25,5 +25,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Check Maven version
+        run: ./mvnw --version
+
       - name: Build and test
         run: ./mvnw clean verify
