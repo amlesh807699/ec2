@@ -27,7 +27,9 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-      - name : test secret
+      - name: Test Secret
+        env:
+          MY_TEST_SECRET: ${{ secrets.MY_TEST_SECRET }}
         run: |
           if [ -z "$MY_TEST_SECRET" ]; then
             echo "Secret missing"
@@ -35,5 +37,3 @@ jobs:
           else
             echo "Secret successfully loaded!"
           fi
-          env:
-          MY_TEST_SECRET: ${{ secrets.MY_TEST_SECRET }}
