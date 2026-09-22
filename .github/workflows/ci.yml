@@ -5,28 +5,35 @@ on:
     branches:
       - main
 
-  pull_request:
-    branches:
-      - main
-
 jobs:
+
   build:
 
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java 21
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'temurin'
-          cache: maven
 
-      - name: Check Maven version
-        run: ./mvnw --version
+      - name: Build
+        run: mvn clean package
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-      - name: Build and test
-        run: ./mvnw clean verify
+      - name : test secret
+        run: |
+          if [ -z "$MY_TEST_SECRET" ]; then
+            echo "Secret missing"
+            exit 1
+          else
+            echo "Secret successfully loaded!"
+          fi
+          env:
+          MY_TEST_SECRET: ${{ secrets.MY_TEST_SECRET }}
